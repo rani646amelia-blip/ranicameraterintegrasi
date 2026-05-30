@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI-Powered Fitness & Posture Coach</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <h1>AI-Powered Fitness & Posture Coach</h1>
+      <p>Latihan yang cerdas, postur yang lebih baik, dan kebugaran yang lebih kuat — semua dalam satu aplikasi web.</p>
+      <div class="hero-actions">
+        <button id="assessmentBtn" class="primary-btn">Mulai Penilaian</button>
+        <button id="tipBtn" class="secondary-btn">Dapatkan Tips Postur</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="features-grid">
+      <article>
+        <h2>Rencana Latihan Pribadi</h2>
+        <p>Dapatkan rekomendasi latihan berdasarkan tujuan kebugaran dan level Anda.</p>
+      </article>
+      <article>
+        <h2>Analisis Postur</h2>
+        <p>Temukan area perbaikan dengan tips sederhana untuk postur duduk dan berdiri.</p>
+      </article>
+      <article>
+        <h2>Panduan Stretching</h2>
+        <p>Ikuti rutinitas pemanasan dan pendinginan yang dirancang khusus untuk fleksibilitas Anda.</p>
+      </article>
+    </section>
+
+    <section class="dashboard">
+      <div class="card">
+        <h3>Ringkasan Kesehatan</h3>
+        <p id="summaryText">Tekan tombol untuk melihat rekomendasi kebugaran dan postur Anda.</p>
+      </div>
+      <div class="card stats-card">
+        <h3>Statistik AI</h3>
+        <ul>
+          <li><strong>Durasi Sesi:</strong> 20-35 menit</li>
+          <li><strong>Fokus:</strong> Kekuatan, fleksibilitas, postur</li>
+          <li><strong>Metode:</strong> Latihan adaptif & tip postur</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <div id="modal" class="modal hidden" aria-hidden="true">
+    <div class="modal-content">
+      <button id="closeModal" class="close-btn" aria-label="Tutup">×</button>
+      <h2 id="modalTitle">Judul</h2>
+      <p id="modalMessage">Konten modal</p>
+      <div class="modal-footer">
+        <button id="confirmBtn" class="primary-btn">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
