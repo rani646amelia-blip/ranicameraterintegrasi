@@ -1,66 +1,168 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI-Powered Fitness & Posture Coach</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Face Recognition Absensi & Akses</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="hero">
-    <div class="hero-content">
-      <h1>AI-Powered Fitness & Posture Coach</h1>
-      <p>Latihan yang cerdas, postur yang lebih baik, dan kebugaran yang lebih kuat — semua dalam satu aplikasi web.</p>
-      <div class="hero-actions">
-        <button id="assessmentBtn" class="primary-btn">Mulai Penilaian</button>
-        <button id="tipBtn" class="secondary-btn">Dapatkan Tips Postur</button>
-      </div>
+  <header class="app-header">
+    <div class="header-content">
+      <h1>🔐 Sistem Absensi & Akses Face Recognition</h1>
+      <p class="subtitle">Verifikasi wajah otomatis untuk check-in karyawan</p>
+    </div>
+    <div class="header-info">
+      <span id="currentTime">--:--:--</span>
     </div>
   </header>
 
   <main class="container">
-    <section class="features-grid">
-      <article>
-        <h2>Rencana Latihan Pribadi</h2>
-        <p>Dapatkan rekomendasi latihan berdasarkan tujuan kebugaran dan level Anda.</p>
-      </article>
-      <article>
-        <h2>Analisis Postur</h2>
-        <p>Temukan area perbaikan dengan tips sederhana untuk postur duduk dan berdiri.</p>
-      </article>
-      <article>
-        <h2>Panduan Stretching</h2>
-        <p>Ikuti rutinitas pemanasan dan pendinginan yang dirancang khusus untuk fleksibilitas Anda.</p>
-      </article>
+    <!-- Tab Navigation -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="recognition">Face Recognition</button>
+      <button class="tab-btn" data-tab="enrollment">Daftarkan Wajah</button>
+      <button class="tab-btn" data-tab="history">Riwayat Absensi</button>
+    </div>
+
+    <!-- Face Recognition Tab -->
+    <section id="recognition" class="tab-content active">
+      <div class="recognition-container">
+        <div class="video-wrapper">
+          <video id="video" playsinline></video>
+          <canvas id="canvas"></canvas>
+          <div class="face-indicator"></div>
+        </div>
+        
+        <div class="recognition-info">
+          <div class="status-box">
+            <p class="status-label">Status:</p>
+            <p id="status" class="status-value">Menginisialisasi...</p>
+          </div>
+          
+          <div class="detected-info">
+            <p id="faceCount" class="info-item">Wajah Terdeteksi: <strong>0</strong></p>
+            <p id="matchInfo" class="info-item">Hasil Pencocokan: <strong>-</strong></p>
+          </div>
+
+          <div class="buttons-group">
+            <button id="startBtn" class="btn primary">Mulai Deteksi</button>
+            <button id="stopBtn" class="btn secondary" style="display:none;">Hentikan</button>
+            <button id="checkInBtn" class="btn success" style="display:none;">✓ Check-In</button>
+          </div>
+
+          <div id="result" class="result-box hidden">
+            <h3 id="resultTitle"></h3>
+            <p id="resultMessage"></p>
+            <p id="resultTime" class="result-time"></p>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section class="dashboard">
-      <div class="card">
-        <h3>Ringkasan Kesehatan</h3>
-        <p id="summaryText">Tekan tombol untuk melihat rekomendasi kebugaran dan postur Anda.</p>
+    <!-- Enrollment Tab -->
+    <section id="enrollment" class="tab-content">
+      <div class="enrollment-container">
+        <div class="enrollment-form">
+          <h2>Daftarkan Identitas Baru</h2>
+          
+          <div class="form-group">
+            <label for="nameInput">Nama Lengkap:</label>
+            <input type="text" id="nameInput" placeholder="Masukkan nama lengkap">
+          </div>
+
+          <div class="form-group">
+            <label for="nidInput">NID/NIK:</label>
+            <input type="text" id="nidInput" placeholder="Masukkan nomor identitas">
+          </div>
+
+          <div class="form-group">
+            <label for="departmentInput">Departemen:</label>
+            <select id="departmentInput">
+              <option value="">-- Pilih Departemen --</option>
+              <option value="IT">IT</option>
+              <option value="HR">HR</option>
+              <option value="Finance">Finance</option>
+              <option value="Sales">Sales</option>
+              <option value="Operations">Operations</option>
+              <option value="Marketing">Marketing</option>
+            </select>
+          </div>
+
+          <div class="enrollment-video-wrapper">
+            <video id="enrollVideo" playsinline></video>
+            <canvas id="enrollCanvas"></canvas>
+            <p class="instruction-text">📷 Posisikan wajah Anda di tengah layar</p>
+          </div>
+
+          <div class="enrollment-buttons">
+            <button id="startEnrollBtn" class="btn primary">Mulai Pendaftaran</button>
+            <button id="captureBtn" class="btn warning" style="display:none;">📸 Ambil Foto</button>
+            <button id="stopEnrollBtn" class="btn secondary" style="display:none;">Hentikan</button>
+          </div>
+
+          <div id="enrollmentProgress" class="progress-box hidden">
+            <p>Foto yang diambil: <strong id="captureCount">0</strong>/5</p>
+            <div class="progress-bar">
+              <div id="progressFill" class="progress-fill"></div>
+            </div>
+          </div>
+
+          <div id="captureGallery" class="capture-gallery"></div>
+
+          <button id="registerBtn" class="btn success" style="display:none;">✓ Daftarkan Pengguna</button>
+          <div id="enrollResult" class="result-box hidden"></div>
+        </div>
       </div>
-      <div class="card stats-card">
-        <h3>Statistik AI</h3>
-        <ul>
-          <li><strong>Durasi Sesi:</strong> 20-35 menit</li>
-          <li><strong>Fokus:</strong> Kekuatan, fleksibilitas, postur</li>
-          <li><strong>Metode:</strong> Latihan adaptif & tip postur</li>
-        </ul>
+    </section>
+
+    <!-- History Tab -->
+    <section id="history" class="tab-content">
+      <div class="history-container">
+        <h2>Riwayat Absensi</h2>
+        
+        <div class="history-filters">
+          <input type="date" id="filterDate" class="filter-input">
+          <select id="filterDepartment" class="filter-input">
+            <option value="">Semua Departemen</option>
+            <option value="IT">IT</option>
+            <option value="HR">HR</option>
+            <option value="Finance">Finance</option>
+            <option value="Sales">Sales</option>
+            <option value="Operations">Operations</option>
+            <option value="Marketing">Marketing</option>
+          </select>
+          <button id="clearHistoryBtn" class="btn danger">🗑️ Hapus Riwayat</button>
+        </div>
+
+        <table id="historyTable" class="history-table">
+          <thead>
+            <tr>
+              <th>Nama</th>
+              <th>NID</th>
+              <th>Departemen</th>
+              <th>Waktu Check-In</th>
+              <th>Akurasi</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="historyBody">
+            <tr><td colspan="6" class="empty-state">Belum ada data absensi</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
   </main>
 
-  <div id="modal" class="modal hidden" aria-hidden="true">
-    <div class="modal-content">
-      <button id="closeModal" class="close-btn" aria-label="Tutup">×</button>
-      <h2 id="modalTitle">Judul</h2>
-      <p id="modalMessage">Konten modal</p>
-      <div class="modal-footer">
-        <button id="confirmBtn" class="primary-btn">OK</button>
-      </div>
-    </div>
-  </div>
+  <footer class="footer">
+    <p>🚀 Sistem Absensi Face Recognition v1.0 | Powered by face-api.js</p>
+  </footer>
 
+  <!-- Notification -->
+  <div id="notification" class="notification hidden"></div>
+
+  <!-- face-api.js Library -->
+  <script async src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
