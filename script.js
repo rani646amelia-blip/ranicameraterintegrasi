@@ -448,6 +448,10 @@ async function startEnrollment() {
     await loadModels();
     enrollmentActive = true;
     enrollmentCaptures = [];
+    enrollmentImages = [];
+    captureCountEl.textContent = '0';
+    progressFillEl.style.width = '0%';
+    clearCaptureGallery();
     
     startEnrollBtn.style.display = 'none';
     captureBtn.style.display = 'inline-block';
@@ -542,6 +546,7 @@ async function captureEnrollmentFace() {
 function stopEnrollment() {
   enrollmentActive = false;
   enrollmentCaptures = [];
+  enrollmentImages = [];
   
   startEnrollBtn.style.display = 'inline-block';
   captureBtn.style.display = 'none';
@@ -549,6 +554,8 @@ function stopEnrollment() {
   progressBoxEl.classList.add('hidden');
   registerBtn.style.display = 'none';
   
+  captureCountEl.textContent = '0';
+  progressFillEl.style.width = '0%';
   clearCaptureGallery();
 
   const ctx = enrollCanvasEl.getContext('2d');
@@ -707,7 +714,13 @@ stopBtn.addEventListener('click', stopRecognition);
 checkInBtn.addEventListener('click', performCheckIn);
 
 startEnrollBtn.addEventListener('click', startEnrollment);
-captureBtn.addEventListener('click', captureEnrollmentFace);
+captureBtn.addEventListener('click', event => {
+  event.preventDefault();
+  captureEnrollmentFace().catch(err => {
+    console.error('Capture error:', err);
+    showNotification('Gagal mengambil foto: ' + err.message, 'error');
+  });
+});
 stopEnrollBtn.addEventListener('click', stopEnrollment);
 registerBtn.addEventListener('click', registerNewPerson);
 
